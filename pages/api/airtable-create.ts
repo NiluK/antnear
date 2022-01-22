@@ -20,29 +20,22 @@ export default async function handler(
     return;
   }
   try {
-    base("Table 1").create(
-      [
-        {
-          fields: {
-            Name: "Task 3",
-            Notes: "third note",
-            Status: "Todo",
-          },
-        },
-      ],
-      function (err: any, records: any) {
-        if (err) {
-          console.error(err);
-          res.status(500).json({ id: "", error: "failed to create data" });
-        }
-        records.forEach(function (record: any) {
-          console.log(record.getId());
-          ids.push(record.getId());
-        });
-        res.status(200).json({ id: ids, error: "" });
+    base(process.env.AIRTABLE_TABLE).create(req.body, function (
+      err: any,
+      records: any
+    ) {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ id: "", error: "failed to create data" });
       }
-    );
+      records.forEach(function (record: any) {
+        console.log(record.getId());
+        ids.push(record.getId());
+      });
+      res.status(200).json({ id: ids, error: "" });
+    });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ id: "", error: "failed to create data" });
   }
 }
