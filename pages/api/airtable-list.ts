@@ -10,13 +10,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  var Airtable = require("airtable");
-  var base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
-    "appZJm9vl67EuISuq"
+  const Airtable = require("airtable");
+  const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+    process.env.AIRTABLE_BASE
   );
   const names: any = [];
   try {
-    const results = await base("Table 1")
+    const results = await base(process.env.AIRTABLE_TABLE)
       .select({
         // Selecting the first 3 records in Grid view:
         maxRecords: 30,
