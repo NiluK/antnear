@@ -29,7 +29,7 @@ export default async function handler(
     const records = await base(process.env.AIRTABLE_TABLE)
       .select({
         // Selecting the first 3 records in Grid view:
-        maxRecords: 30,
+        maxRecords: 100,
         view: "Grid view",
         filterByFormula: `OR({signer_account_id} = '${body.account_id}', {receiver_account_id} = '${body.account_id}')`
         // fields: ["transaction_hash","included_in_block_hash","included_in_chunk_hash","index_in_chunk","block_timestamp","signer_account_id","signer_public_key","nonce","receiver_account_id","signature","converted_into_receipt_id","receipt_conversion_gas_burnt","receipt_conversion_tokens_burnt"]
