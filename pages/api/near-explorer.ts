@@ -22,12 +22,5 @@ export default async function handler(
     ]},
     take: 100,
   });
-  res.status(200).json(toJson(transactions))
-}
-
-function toJson(transactions: transactions[]) {
-  if (transactions !== undefined) {
-      return JSON.stringify(transactions, (_, v) => typeof v === 'bigint' ? `${v}#bigint` : v)
-          .replace(/"(-?\d+)#bigint"/g, (_, a) => a);
-  }
+  res.status(200).json(transactions)
 }
