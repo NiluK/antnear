@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model transactions {
+  transaction_hash                String  @unique
+  included_in_block_hash          String
+  included_in_chunk_hash          String
+  index_in_chunk                  Int
+  block_timestamp                 Decimal @db.Decimal(20, 0)
+  signer_account_id               String
+  signer_public_key               String
+  nonce                           Decimal @db.Decimal(20, 0)
+  receiver_account_id             String
+  signature                       String
+  converted_into_receipt_id       String
+  receipt_conversion_gas_burnt    Decimal @db.Decimal(20, 0)
+  receipt_conversion_tokens_burnt Decimal @db.Decimal(20, 0)
+}
