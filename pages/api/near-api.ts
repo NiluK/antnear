@@ -9,7 +9,7 @@ export default async function handler(
     res.status(400).send({ id: [], error: "Only POST requests allowed" });
     return;
   }
-  const body = JSON.parse(req.body)
+  const body = req.body
   if (body.account_id === undefined) {
     res.status(400).send({ error: "account_id is required" });
     return;
