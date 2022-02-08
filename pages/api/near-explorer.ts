@@ -16,7 +16,10 @@ export default async function handler(
     return;
   }
   const transactions = await prisma.transactions.findMany({
-    where: { receiver_account_id: body.account_id },
+    where: { OR: [
+      { signer_account_id: body.account_id },
+      { receiver_account_id: body.account_id }
+    ]},
     take: 100,
   });
   res.status(200).json(toJson(transactions))
