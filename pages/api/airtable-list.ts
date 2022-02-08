@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  name: string;
+  records: string;
   error: string;
 };
 
@@ -16,25 +16,16 @@ export default async function handler(
   );
   const names: any = [];
   try {
-    const results = await base(process.env.AIRTABLE_TABLE)
+    const records = await base(process.env.AIRTABLE_TABLE)
       .select({
         // Selecting the first 3 records in Grid view:
         maxRecords: 30,
         view: "Grid view",
-      })
-      .eachPage(function page(records: any, fetchNextPage: any) {
-        // This function (`page`) will get called for each page of records.
-
-        records.forEach(function (record: any) {
-          names.push(record.get("Name"));
-        });
-        res.status(200).json({ name: names, error: "" });
-        // To fetch the next page of records, call `fetchNextPage`.
-        // If there are more records, `page` will get called again.
-        // If there are no more records, `done` will get called.
-        fetchNextPage();
-      });
+        fields: ["Name", "Notes", "Status"]
+      }).all();
+    res.status(200).json({ records, error: "" });
   } catch (err) {
-    res.status(500).json({ name: "", error: "failed to load data" });
+    console.log(err)
+    res.status(500).json({ records: "", error: "failed to load data" });
   }
 }
